@@ -12,9 +12,9 @@ class WhatsAppWebhookController extends Controller
     public function verifyWebhook(Request $request)
     {
         $verify_token = 'my_secure_verify_token_1234';
-        $mode = $request->get('hub.mode');
-        $token = $request->get('hub.verify_token');
-        $challenge = $request->get('hub.challenge');
+        $mode = $request->get('hub_mode');
+        $token = $request->get('hub_verify_token');
+        $challenge = $request->get('hub_challenge');
         $AB=$token+$verify_token;
 
         if ($mode === 'subscribe' && $token === $verify_token) {
