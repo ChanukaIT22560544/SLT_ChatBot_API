@@ -15,11 +15,12 @@ class WhatsAppWebhookController extends Controller
         $mode = $request->get('hub.mode');
         $token = $request->get('hub.verify_token');
         $challenge = $request->get('hub.challenge');
+        $AB=$token+$verify_token;
 
         if ($mode === 'subscribe' && $token === $verify_token) {
             return response($challenge, 200);
         }
-        return response('Forbidden4', 403);
+        return response($AB, 403);
     }
 
     //  Receive customer messages from WhatsApp
