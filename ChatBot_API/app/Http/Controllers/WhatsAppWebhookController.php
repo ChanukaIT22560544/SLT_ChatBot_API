@@ -19,7 +19,7 @@ class WhatsAppWebhookController extends Controller
         if ($mode === 'subscribe' && $token === $verify_token) {
             return response($challenge, 200);
         }
-        return response('Forbidden', 403);
+        return response('Forbidden4', 403);
     }
 
     //  Receive customer messages from WhatsApp
