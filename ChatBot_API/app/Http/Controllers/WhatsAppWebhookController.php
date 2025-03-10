@@ -15,12 +15,11 @@ class WhatsAppWebhookController extends Controller
         $mode = $request->get('hub_mode');
         $token = $request->get('hub_verify_token');
         $challenge = $request->get('hub_challenge');
-        //$AB=$token+$verify_token;
 
         if ($mode === 'subscribe' && $token === $verify_token) {
             return response($challenge, 200);
         }
-        return response("Frojibo", 403);
+        return response('Forbidden2', 403);
     }
 
     //  Receive customer messages from WhatsApp
@@ -61,9 +60,10 @@ class WhatsAppWebhookController extends Controller
         $phone_number = $request->input('to');
         $text = $request->input('message');
 
-        $url = 'https://graph.facebook.com/' . env('WHATSAPP_API_VERSION') . '/' . env('WHATSAPP_PHONE_NUMBER_ID') . '/messages';
+        $accessToken = 'EAA4A1Pp7ykgBO6pO63p6kklzug0rKIwP8sd4gXlveu11E51qIWsqE1Xf0tMbkp3z67m0LtZALZCYq7X7068OGP64Nq4QWZBWcBa3iqKcPPreFFfOBjjrKfd6xPbqagsheLZAQq9WljlG5PXENfZBYEcpmYwhhxvNgzE22DrItucuS7ZC1NfXaZBj4crogl4maTZATnuPA7abhq4IZAZBPHfw6lB6aQUovxcg2GuAb6hz6s';
+        $url = 'https://graph.facebook.com/v14.0/627733203747438/messages';
 
-        $response = Http::withToken(env('WHATSAPP_ACCESS_TOKEN'))->post($url, [
+        $response = Http::withToken($accessToken)->post($url, [
             'messaging_product' => 'whatsapp',
             'to' => $phone_number,
             'text' => ['body' => $text],
@@ -81,4 +81,5 @@ class WhatsAppWebhookController extends Controller
             'status' => $response->successful() ? 'sent' : 'failed',
         ], $response->status());
     }
+    
 }

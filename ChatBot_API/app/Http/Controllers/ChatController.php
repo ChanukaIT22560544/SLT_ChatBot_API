@@ -25,6 +25,7 @@ class ChatController extends Controller
 public function index(Request $request)
 {
     $customerPhone = '0716520832';
+    // $customerPhone  = $request->input('from');
     $requiredSkill = 'peo tv';
     $language = 'Tamil';
 
@@ -85,7 +86,11 @@ public function index(Request $request)
 public function sendMessages(Request $request)
 {
     try {
-        $fromPhoneNumber = '0716520832'; // Hardcoded for now
+
+
+        $fromPhoneNumber = $request->input('from'); // WhatsApp sends the sender's number as 'from'
+
+        // $fromPhoneNumber = '0716520832'; // Hardcoded for now
 
         // Retrieve assigned agent for this customer
         $customer = Customer::where('phone_number', $fromPhoneNumber)->first();
@@ -183,8 +188,8 @@ if ($request->hasFile('document')) {
     $file = $request->file('document');
 
     try {
-        $client = new Client("mongodb+srv://CNK:CNK811@cluster0.i5gyh.mongodb.net/chatbot_db?retryWrites=true&w=majority&appName=Cluster0");
-        $database = $client->selectDatabase(env('SECOUND_DB_DATABASE', 'chatbot_db'));
+        $client = new Client("mongodb://localhost:27017");
+        $database = $client->chatbot_db;
         $bucket = $database->selectGridFSBucket();
 
         // Upload document to GridFS
@@ -242,8 +247,8 @@ if ($request->hasFile('document')) {
             $file = $request->file('document');
 
             
-            $client = new Client("mongodb+srv://CNK:CNK811@cluster0.i5gyh.mongodb.net/chatbot_db?retryWrites=true&w=majority&appName=Cluster0");
-            $database = $client->selectDatabase(env('SECOUND_DB_DATABASE', 'chatbot_db'));
+            $client = new Client("mongodb://localhost:27017");
+            $database = $client->chatbot_db;
             $bucket = $database->selectGridFSBucket();
 
             // Store document in GridFS
@@ -353,10 +358,29 @@ public function matchAgent(Request $request)
 }
 
 
+
+// public function handleIncomingMessage(Request $request)
+// {
+//     $message = $request->input('messages.0.text.body'); // The message content
+//     $customerPhone = $request->input('messages.0.from'); // Sender's phone number
+
+//     // Extract skill (e.g., "peo tv") from the message
+//     preg_match('/(peo tv|other skills)/', $message, $matches);
+//     $requiredSkill = $matches[0] ?? 'default skill'; // Default if no skill matched
+
+//     // Extract language (e.g., "Tamil") from the message
+//     preg_match('/(Tamil|English|Sinhala)/', $message, $langMatches);
+//     $language = $langMatches[0] ?? 'English'; // Default if no language matched
+
+//     // Now, call the matchAgent function to find a suitable agent
+//     return $this->matchAgent($customerPhone, $requiredSkill, $language);
+// }
+
+
 public function download($documentId)
 {
     try {
-        $client = new Client("mongodb+srv://CNK:CNK811@cluster0.i5gyh.mongodb.net/chatbot_db?retryWrites=true&w=majority&appName=Cluster0");
+        $client = new MongoClient;
         $database = $client->chatbot_db;
         $bucket = $database->selectGridFSBucket();
 
@@ -388,7 +412,7 @@ public function view($documentId)
     {
         try {
             // Connect to MongoDB
-            $client = new Client("mongodb+srv://CNK:CNK811@cluster0.i5gyh.mongodb.net/chatbot_db?retryWrites=true&w=majority&appName=Cluster0");
+            $client = new MongoClient;
             $database = $client->chatbot_db;  // Replace with your actual database name
             $bucket = $database->selectGridFSBucket();
 
