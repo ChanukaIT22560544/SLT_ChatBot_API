@@ -188,7 +188,7 @@ if ($request->hasFile('document')) {
     $file = $request->file('document');
 
     try {
-        $client = new Client("mongodb://localhost:27017");
+        $client = new Client("mongodb+srv://CNK:CNK811@cluster0.i5gyh.mongodb.net/chatbot_db?retryWrites=true&w=majority&appName=Cluster0");
         $database = $client->chatbot_db;
         $bucket = $database->selectGridFSBucket();
 
@@ -247,7 +247,8 @@ if ($request->hasFile('document')) {
             $file = $request->file('document');
 
             
-            $client = new Client("mongodb://localhost:27017");
+            $client = new Client("mongodb+srv://CNK:CNK811@cluster0.i5gyh.mongodb.net/chatbot_db?retryWrites=true&w=majority&appName=Cluster0
+");
             $database = $client->chatbot_db;
             $bucket = $database->selectGridFSBucket();
 
@@ -380,7 +381,7 @@ public function matchAgent(Request $request)
 public function download($documentId)
 {
     try {
-        $client = new MongoClient;
+        $client = new  Client("mongodb+srv://CNK:CNK811@cluster0.i5gyh.mongodb.net/chatbot_db?retryWrites=true&w=majority&appName=Cluster0");
         $database = $client->chatbot_db;
         $bucket = $database->selectGridFSBucket();
 
@@ -412,7 +413,7 @@ public function view($documentId)
     {
         try {
             // Connect to MongoDB
-            $client = new MongoClient;
+            $client = new  Client("mongodb+srv://CNK:CNK811@cluster0.i5gyh.mongodb.net/chatbot_db?retryWrites=true&w=majority&appName=Cluster0");
             $database = $client->chatbot_db;  // Replace with your actual database name
             $bucket = $database->selectGridFSBucket();
 

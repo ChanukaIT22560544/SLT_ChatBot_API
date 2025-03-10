@@ -64,16 +64,11 @@ return [
 
 
         'mongodb' => [
-    'driver'   => 'mongodb',
-    'host'     => env('SECOUND_DB_HOST', 'localhost'),
-    'port'     => env('SECOUND_DB_PORT', 27017),
-    'database' => env('SECOUND_DB_DATABASE', 'chatbot_db'),
-    'username' => env('SECOUND_DB_USERNAME', ''),
-    'password' => env('SECOUND_DB_PASSWORD', ''),
-    'options'  => [
-        'database' => env('SECOUND_DB_DATABASE', 'chatbot_db') // sets the authentication database
-    ]
-],
+            'driver'   => 'mongodb',
+            'dsn'      => env('DB_URI'),
+            'database' => env('SECOUND_DB_DATABASE', 'chatbot_db'),
+        ],
+
 
         'mariadb' => [
             'driver' => 'mariadb',
